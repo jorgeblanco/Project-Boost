@@ -2,13 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Rocket : MonoBehaviour
 {
     private Rigidbody _rb;
     private AudioSource _audioSource;
-    [SerializeField] private float thrustForce;
-    [SerializeField] private float rotationForce;
+    [SerializeField] private float thrustForce = 2000f;
+    [SerializeField] private float rotationForce = 200f;
 
     // Start is called before the first frame update
     void Start()
@@ -47,7 +48,7 @@ public class Rocket : MonoBehaviour
 
     private void ProcessThrust()
     {
-// Thrust control
+        // Thrust control
         if (Input.GetButton("Jump"))
         {
             _rb.AddRelativeForce(Time.deltaTime * thrustForce * Vector3.up);
@@ -59,6 +60,19 @@ public class Rocket : MonoBehaviour
         else if (_audioSource.isPlaying)
         {
             _audioSource.Stop();
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.GetComponent<Friendly>() == null)
+        {
+            // Reload level upon death
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+        else
+        {
+            Debug.Log("Friendly :)");
         }
     }
 }
