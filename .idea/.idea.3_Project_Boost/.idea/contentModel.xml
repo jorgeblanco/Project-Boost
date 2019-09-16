@@ -10,6 +10,7 @@
         <e p="Scripts" t="Include">
           <e p="Finish.cs" t="Include" />
           <e p="Friendly.cs" t="Include" />
+          <e p="Oscillator.cs" t="Include" />
           <e p="Rocket.cs" t="Include" />
         </e>
       </e>

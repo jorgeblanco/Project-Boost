@@ -161,7 +161,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thrustForce: 2000
   rotationForce: 200
-  sceneLoadTime: 1
+  sceneLoadTime: 2
   engineAudioClip: {fileID: 8300000, guid: 3659f730ea1c1b6449380e787f7c8be4, type: 3}
   deathAudioClip: {fileID: 8300000, guid: 8abf678ab78a91c4c99901f7f08f04f3, type: 3}
   winAudioClip: {fileID: 8300000, guid: f60040c7cfe745c4aa6cede5c4d46234, type: 3}
