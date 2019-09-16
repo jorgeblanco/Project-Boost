@@ -12,6 +12,9 @@ public class Rocket : MonoBehaviour
     [SerializeField] private AudioClip engineAudioClip;
     [SerializeField] private AudioClip deathAudioClip;
     [SerializeField] private AudioClip winAudioClip;
+    [SerializeField] private ParticleSystem engineParticles;
+    [SerializeField] private ParticleSystem deathParticles;
+    [SerializeField] private ParticleSystem winParticles;
     
     private enum State
     {
@@ -74,6 +77,7 @@ public class Rocket : MonoBehaviour
         else if (_audioSource.isPlaying)
         {
             _audioSource.Stop();
+            engineParticles.Stop();
         }
     }
 
@@ -83,6 +87,7 @@ public class Rocket : MonoBehaviour
         if (!_audioSource.isPlaying)
         {
             _audioSource.PlayOneShot(engineAudioClip);
+            engineParticles.Play();
         }
     }
 
@@ -109,7 +114,9 @@ public class Rocket : MonoBehaviour
         // Reload level upon death
         _state = State.Dying;
         _audioSource.Stop(); // Kill the sound if dying
+        engineParticles.Stop();
         _audioSource.PlayOneShot(deathAudioClip);
+        deathParticles.Play();
         Invoke(nameof(ReloadScene), sceneLoadTime);
     }
 
@@ -118,7 +125,9 @@ public class Rocket : MonoBehaviour
         // Reload level upon death
         _state = State.Transcending;
         _audioSource.Stop(); // Stop other sound
+        engineParticles.Stop();
         _audioSource.PlayOneShot(winAudioClip);
+        winParticles.Play();
         Invoke(nameof(LoadNextScene), sceneLoadTime);
     }
 
