@@ -158,6 +158,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thrustForce: 2000
   rotationForce: 200
+  sceneLoadTime: 1
+  engineAudioClip: {fileID: 8300000, guid: 3659f730ea1c1b6449380e787f7c8be4, type: 3}
+  deathAudioClip: {fileID: 8300000, guid: 8abf678ab78a91c4c99901f7f08f04f3, type: 3}
+  winAudioClip: {fileID: 8300000, guid: f60040c7cfe745c4aa6cede5c4d46234, type: 3}
 --- !u!82 &7747317760695197921
 AudioSource:
   m_ObjectHideFlags: 0
@@ -168,9 +172,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: a9e44edfb4e29b447b2db92316d751a7, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.3
+  m_Volume: 0.5
   m_Pitch: 0.8
   Loop: 0
   Mute: 0

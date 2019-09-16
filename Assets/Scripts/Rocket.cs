@@ -9,6 +9,9 @@ public class Rocket : MonoBehaviour
     [SerializeField] private float thrustForce = 2000f;
     [SerializeField] private float rotationForce = 200f;
     [SerializeField] private float sceneLoadTime = 1f;
+    [SerializeField] private AudioClip engineAudioClip;
+    [SerializeField] private AudioClip deathAudioClip;
+    [SerializeField] private AudioClip winAudioClip;
     
     private enum State
     {
@@ -66,15 +69,20 @@ public class Rocket : MonoBehaviour
         // Thrust control
         if (Input.GetButton("Jump"))
         {
-            _rb.AddRelativeForce(Time.deltaTime * thrustForce * Vector3.up);
-            if (!_audioSource.isPlaying)
-            {
-                _audioSource.Play();
-            }
+            ApplyThrust();
         }
         else if (_audioSource.isPlaying)
         {
             _audioSource.Stop();
+        }
+    }
+
+    private void ApplyThrust()
+    {
+        _rb.AddRelativeForce(Time.deltaTime * thrustForce * Vector3.up);
+        if (!_audioSource.isPlaying)
+        {
+            _audioSource.PlayOneShot(engineAudioClip);
         }
     }
 
@@ -84,21 +92,34 @@ public class Rocket : MonoBehaviour
         
         if (collision.gameObject.GetComponent<Friendly>() == null)
         {
-            // Reload level upon death
-            _state = State.Dying;
-            _audioSource.Stop();  // Kill the sound if dying
-            Invoke(nameof(ReloadScene), sceneLoadTime);
+            StartDeathSequence();
         }
         else if (collision.gameObject.GetComponent<Finish>() != null)
         {
-            // Reload level upon death
-            _state = State.Transcending;
-            Invoke(nameof(LoadNextScene), sceneLoadTime);
+            StartSuccessSequence();
         }
         else
         {
             Debug.Log("Friendly :)");
         }
+    }
+
+    private void StartDeathSequence()
+    {
+        // Reload level upon death
+        _state = State.Dying;
+        _audioSource.Stop(); // Kill the sound if dying
+        _audioSource.PlayOneShot(deathAudioClip);
+        Invoke(nameof(ReloadScene), sceneLoadTime);
+    }
+
+    private void StartSuccessSequence()
+    {
+        // Reload level upon death
+        _state = State.Transcending;
+        _audioSource.Stop(); // Stop other sound
+        _audioSource.PlayOneShot(winAudioClip);
+        Invoke(nameof(LoadNextScene), sceneLoadTime);
     }
 
     private void ReloadScene()
