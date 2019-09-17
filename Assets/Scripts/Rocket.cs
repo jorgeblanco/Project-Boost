@@ -24,6 +24,7 @@ public class Rocket : MonoBehaviour
     }
 
     private State _state = State.Alive;
+    private bool _collisionsDisabled = false;
 
     void Start()
     {
@@ -43,6 +44,22 @@ public class Rocket : MonoBehaviour
         {
             ProcessRotation();
             ProcessThrust();
+        }
+
+        if (Debug.isDebugBuild)
+        {
+            ProcessDebugKeys();
+        }
+    }
+
+    private void ProcessDebugKeys()
+    {
+        if(Input.GetButtonDown("Debug1")){
+            LoadNextScene();
+        }
+        if(Input.GetButtonDown("Debug2")){
+            _collisionsDisabled = !_collisionsDisabled;
+            Debug.Log("collisions " + (_collisionsDisabled ? "off" : "on"));
         }
     }
 
@@ -93,7 +110,7 @@ public class Rocket : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(_state != State.Alive){return;}
+        if(_state != State.Alive || _collisionsDisabled){return;}
         
         if (collision.gameObject.GetComponent<Friendly>() == null)
         {
