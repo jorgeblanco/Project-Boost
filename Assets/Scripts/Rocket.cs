@@ -67,19 +67,21 @@ public class Rocket : MonoBehaviour
     {
         var horizontal = Input.GetAxis("Horizontal");
 
+        // Skip if there's no rotation to process
+        if (!(Mathf.Abs(horizontal) > Mathf.Epsilon)) {return;}
+        
         // Take manual control of rotation
         _rb.freezeRotation = true;
-        
+            
         // Rotation control
-        if (horizontal > 0)
-        {
-            transform.Rotate(Time.deltaTime * rotationForce * -Vector3.forward);
-        }
-        else if (horizontal < 0)
-        {
-            transform.Rotate(Time.deltaTime * rotationForce * Vector3.forward);
-        }
-        
+        transform.Rotate(
+            Time.deltaTime *  // deltaTime for framerate variability correction
+            rotationForce *  // the actual rotation multiplier
+            (Mathf.Abs(horizontal)/horizontal) *  // determine positive or negative rotation
+            -1f *  // invert the rotation direction for more natural controls
+            Vector3.forward  // rotate around the z-axis
+            );
+            
         // Resume physics control of rotation
         _rb.freezeRotation = false;
     }
